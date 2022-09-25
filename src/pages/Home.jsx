@@ -18,7 +18,7 @@ function Home() {
   return (
     <Container>
       <Box mt={5} mb={5}>
-        <Grid container spacing={5}>
+        <Grid container spacing={3}>
           {products.map((product) => (
             <Grid item xs={3} key={product._id} >
               <Card product={product} />

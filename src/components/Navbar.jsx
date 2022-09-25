@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   AppBar,
   Box,
@@ -8,34 +8,44 @@ import {
   Typography,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
+import  LoginModal  from "../components/LoginModal";
 
 function Navbar() {
-    const navigate = useNavigate();
+  const navigate = useNavigate();
 
-    return (
-        <Box sx={{ flexGrow: 1 }}>
-        <AppBar position="sticky">
-            <Toolbar>
-            <IconButton
-                size="large"
-                edge="start"
-                color="inherit"
-                aria-label="menu"
-                sx={{ mr: 2 }}
-            >
-                <MenuIcon />
-            </IconButton>
-            <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-                E-commerce app
-            </Typography>
-            <Button color="inherit" onClick={() => navigate("/cart")}>Cart</Button>
-            <Button color="inherit" onClick={() => navigate("/orders")}>Orders</Button>
-            <Button color="inherit">Login</Button>
-            </Toolbar>
-        </AppBar>
-        </Box>
-    );
+  const [open, setOpen] = useState(false);
+
+  return (
+    <Box sx={{ flexGrow: 1 }}>
+      <AppBar position="sticky">
+        <Toolbar>
+          <IconButton
+            size="large"
+            edge="start"
+            color="inherit"
+            aria-label="menu"
+            sx={{ mr: 2 }}
+          >
+            <MenuIcon />
+          </IconButton>
+          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+            E-commerce app
+          </Typography>
+          <Button color="inherit" onClick={() => navigate("/cart")}>
+            Cart
+          </Button>
+          <Button color="inherit" onClick={() => navigate("/orders")}>
+            Orders
+          </Button>
+          <Button color="inherit" onClick={() => setOpen(true)}>
+            Login
+          </Button>
+          {open ? <LoginModal setOpen={setOpen} /> : null}
+        </Toolbar>
+      </AppBar>
+    </Box>
+  );
 }
 
 export default Navbar;
