@@ -1,53 +1,102 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import axios from "axios";
-import { Button, Stack, TextField } from "@mui/material";
+import { Alert, Button, Stack, TextField } from "@mui/material";
+import { Form, Formik } from "formik";
+import * as yup from "yup";
+import AuthContext from "../contexts/AuthContext";
 
 const LoginForm = ({ setOpen }) => {
-    const URL = process.env.REACT_APP_API;
-    const [formData, setFormData] = useState({
-        email: "",
-        password: "",
-    });
+  const URL = process.env.REACT_APP_API;
+  const [err, setErr] = useState(null);
+  const { toggleAuth } = useContext(AuthContext);
 
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setFormData((prev) => ({ ...prev, [name]: value }));
-    };
-    const handlSubmit = async (e) => {
-        e.preventDefault();
+  const initialValues = {
+    email: "",
+    password: "",
+  };
 
-        try {
-            const response = await axios.post(`${URL}/register/signin`, formData);
-            console.log(response.data);
-            localStorage.setItem("token", response.data);
-        } catch (err) {
-            console.log(err);
-        }
 
-        setOpen(false);
-    };
-    return (
-        <form onSubmit={handlSubmit}>
-        <Stack spacing={2}>
+  const schema = yup.object().shape({
+    // name: yup.string().required("Required"),
+    email: yup.string().email("Invalid email").required("Required"),
+    password: yup.string().required("Password is required"),
+    // confPassword: yup
+    //   .string()
+    //   .oneOf([yup.ref("password"), null], "Passwords must match"),
+  });
+
+  const handleSubmit = async (values, { resetForm }) => {
+
+    try {
+      const response = await axios.post(`${URL}/register/signin`, values);
+      console.log(response.data);
+      toggleAuth();
+      setOpen(false);
+      localStorage.setItem("token", response.data);
+
+    } catch (err) {
+      console.log(err);
+      setErr(true)
+    }
+
+  };
+  return (
+    <Formik initialValues={initialValues} validationSchema={schema} onSubmit={handleSubmit} >
+      {({
+        values,
+        errors,
+        touched,
+        handleChange,
+        handleBlur,
+        handleSubmit,
+        isSubmitting,
+        isValid,
+      }) => (
+        <Form>
+          <Stack spacing={2}>
             <TextField
-                label="email"
-                value={formData.email}
-                name="email"
-                onChange={handleChange}
+              label="Email"
+              name="email"
+              value={values.email}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              error={Boolean( touched.email && errors.email)}
+              helperText={touched.email && errors.email}
             />
             <TextField
-                label="password"
-                name="password"
-                type="password"
-                value={formData.password}
-                onChange={handleChange}
+              label="Password"
+              name="password"
+              type="password"
+              value={values.password}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              error={Boolean( touched.password && errors.password)}
+              helperText={
+                touched.password && errors.password
+              }
             />
-            <Button variant="contained" color="success" type="submit">
-            Log In
+            
+            {/* //FIXME:Alert need to be add */}
+            {/* {
+              err && 
+            <Alert severity="error">{err}</Alert> 
+            } */}
+            <Button
+              variant="contained"
+              color="success"
+              type="submit"
+              disabled={
+                JSON.stringify(initialValues) === JSON.stringify(values) ||
+                !isValid
+              }
+            >
+              Log In
             </Button>
-        </Stack>
-        </form>
-    );
+          </Stack>
+        </Form>
+      )}
+    </Formik>
+  );
 };
 
 export default LoginForm;

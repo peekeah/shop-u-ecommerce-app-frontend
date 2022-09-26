@@ -1,54 +1,97 @@
 import { Button, Stack, TextField } from "@mui/material";
 import React from "react";
 import { useState } from "react";
+import * as yup from "yup";
+import { Form, Formik } from "formik";
 
 const SignupForm = () => {
-    const URL = process.env.REACT_APP_API;
+  const URL = process.env.REACT_APP_API;
 
-    const [formData, setFormData] = useState({
-        name: "",
-        email: "",
-        password: "",
-    });
+  const initialValues = {
+    name: "",
+    email: "",
+    password: "",
+    cnfPassword: "",
+  };
 
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setFormData((prev) => ({ ...prev, [name]: value }));
-    };
+  const schema = yup.object().shape({
+    name: yup.string().required("Required"),
+    email: yup.string().email("Invalid email").required("Required"),
+    password: yup.string().required("Password is required"),
+    cnfPassword: yup
+      .string()
+      .oneOf([yup.ref("password"), null], "Passwords didn't match").required('Required'),
+  });
 
-    const handleSubmit = async(e) => { 
-        e.preventDefault();
-        console.log(formData)
-    }
+  const handleSubmit = async (values) => {
+    // e.preventDefault();
+    console.log(values);
+  };
 
-    return (
-        <form onSubmit={handleSubmit}>
-        <Stack direction="column" spacing={3}>
+  return (
+    <Formik
+      initialValues={initialValues}
+      validationSchema={schema}
+      onSubmit={handleSubmit}
+    >
+      {({
+        values,
+        errors,
+        touched,
+        handleChange,
+        handleBlur,
+        handleSubmit,
+        isSubmitting,
+        isValid,
+      }) => (
+        <Form>
+          <Stack direction="column" spacing={3}>
             <TextField
-                label="name"
-                name="name"
-                value={formData.name}
-                onChange={handleChange}
+              label="Name"
+              name="name"
+              value={values.name}
+              onBlur={handleBlur}
+              onChange={handleChange}
+              error={Boolean( touched.name && errors.name)}
+              helperText={touched.name && errors.name}
             />
             <TextField
-                label="email"
-                name="email"
-                value={formData.email}
-                onChange={handleChange}
+              label="Email"
+              name="email"
+              value={values.email}
+              onBlur={handleBlur}
+              onChange={handleChange}
+              error={Boolean( touched.email && errors.email)}
+              helperText={touched.email && errors.email}
             />
             <TextField
-                label="password"
-                name="password"
-                type="password"
-                value={formData.password}
-                onChange={handleChange}
+              label="Password"
+              name="password"
+              type="password"
+              value={values.password}
+              onBlur={handleBlur}
+              onChange={handleChange}
+              error={Boolean( touched.password && errors.password)}
+              helperText={touched.password && errors.password}
             />
-            <Button color="primary" variant="contained" type="submit">
-            Sign Up
+            <TextField
+              label="Confirm Password"
+              name="cnfPassword"
+              type="password"
+              value={values.cnfPassword}
+              onBlur={handleBlur}
+              onChange={handleChange}
+              error={Boolean( touched.cnfPassword && errors.cnfPassword)}
+              helperText={touched.cnfPassword && errors.cnfPassword}
+            />
+            <Button color="primary" variant="contained" type="submit" disabled={ !isValid || JSON.stringify(initialValues) === JSON.stringify(values)}>
+              Sign Up
             </Button>
-        </Stack>
-        </form>
-    );
+          </Stack>
+        </Form>
+      )}
+    </Formik>
+  );
 };
 
 export default SignupForm;

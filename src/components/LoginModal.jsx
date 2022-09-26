@@ -19,6 +19,12 @@ const style = {
 const LoginModal = ({ setOpen }) => {
   const [toggleLogin, setToggleLogin] = useState(true);
 
+  const schema = yup.object().shape({
+    name: yup.string().required(),
+    email: yup.string().required(),
+    password: yup.string().required(),
+    confirmPassword: yup.string().required().oneOf([yup.ref('password'), null], "Passwords didn't match")
+  })
 
 
   return (
