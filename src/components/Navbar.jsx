@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import {
   AppBar,
   Box,
@@ -10,12 +10,14 @@ import {
 import MenuIcon from "@mui/icons-material/Menu";
 import { useNavigate, Link } from "react-router-dom";
 import  LoginModal  from "../components/LoginModal";
+import authContext from "../contexts/AuthContext";
+
 
 function Navbar() {
   const navigate = useNavigate();
-
+  const {auth, toggleAuth} = useContext(authContext)
   const [open, setOpen] = useState(false);
-
+  
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="sticky">
@@ -39,7 +41,7 @@ function Navbar() {
             Orders
           </Button>
           <Button color="inherit" onClick={() => setOpen(true)}>
-            Login
+            {auth?'Login':'Logout'}
           </Button>
           {open ? <LoginModal setOpen={setOpen} /> : null}
         </Toolbar>
