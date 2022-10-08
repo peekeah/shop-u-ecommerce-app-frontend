@@ -1,4 +1,12 @@
-import { Box, Button, ButtonGroup, Paper, Rating, Stack } from "@mui/material";
+import {
+  Box,
+  Button,
+  ButtonGroup,
+  Paper,
+  Rating,
+  Stack,
+  Typography,
+} from "@mui/material";
 import { AddShoppingCart, Description } from "@mui/icons-material";
 import React, { useState } from "react";
 import ProductModal from "../components/ProductModal";
@@ -17,9 +25,16 @@ function Card({ product }) {
               alt={product.product_name}
             />
           </Box>
+          <Typography
+            style={{
+              textOverflow: "ellipsis",
+              whiteSpace: "nowrap",
+              overflow: "hidden",
+            }}
+          >
+            {product.product_name}
+          </Typography>
           <Box>
-            <Rating name="read-only" value={product.rating.rate} readOnly />
-
             <Box sx={{ display: "flex", justifyContent: "center" }}>
               <ButtonGroup
                 variant="contained"

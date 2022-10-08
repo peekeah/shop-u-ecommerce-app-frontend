@@ -1,11 +1,11 @@
 import React, { useState, useContext } from "react";
 import axios from "axios";
-import { Alert, Button, Stack, TextField } from "@mui/material";
+import { Alert, Button, Stack, TextField, Typography } from "@mui/material";
 import { Form, Formik } from "formik";
 import * as yup from "yup";
 import AuthContext from "../contexts/AuthContext";
 
-const LoginForm = ({ setOpen }) => {
+const LoginForm = ({ setOpen, setToggleLogin }) => {
   const URL = process.env.REACT_APP_API;
   const [err, setErr] = useState(null);
   const { toggleAuth } = useContext(AuthContext);
@@ -54,6 +54,7 @@ const LoginForm = ({ setOpen }) => {
       }) => (
         <Form>
           <Stack spacing={2}>
+          <Typography align="center" variant="h4">Login</Typography>
             <TextField
               label="Email"
               name="email"
@@ -81,6 +82,7 @@ const LoginForm = ({ setOpen }) => {
               err && 
             <Alert severity="error">{err}</Alert> 
             } */}
+            <Typography component='div'>New User? <Typography component='span' onClick={() =>setToggleLogin(false)  } sx={{textDecoration: 'underline', cursor: 'pointer'}}>Register</Typography></Typography>
             <Button
               variant="contained"
               color="success"

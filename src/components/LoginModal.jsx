@@ -1,8 +1,19 @@
-import { Modal, Box, Button, Stack, TextField } from "@mui/material";
+import {
+  Modal,
+  Box,
+  Button,
+  Stack,
+  TextField,
+  ListItem,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
+} from "@mui/material";
+import { Inbox } from "@mui/icons-material";
 import React, { useState } from "react";
 import LoginForm from "./LoginForm";
 import SignupForm from "./SignupForm";
-import * as yup from 'yup';
+import * as yup from "yup";
 
 const style = {
   position: "absolute",
@@ -23,9 +34,11 @@ const LoginModal = ({ setOpen }) => {
     name: yup.string().required(),
     email: yup.string().required(),
     password: yup.string().required(),
-    confirmPassword: yup.string().required().oneOf([yup.ref('password'), null], "Passwords didn't match")
-  })
-
+    confirmPassword: yup
+      .string()
+      .required()
+      .oneOf([yup.ref("password"), null], "Passwords didn't match"),
+  });
 
   return (
     <Modal
@@ -35,11 +48,11 @@ const LoginModal = ({ setOpen }) => {
       aria-describedby="modal-modal-description"
     >
       <Box sx={style}>
-        <Stack direction="row" mb={2}>
-          <Button onClick={() => setToggleLogin(true)}>Login</Button>
-          <Button onClick={() => setToggleLogin(false)}>Signup</Button>
-        </Stack>
-        {toggleLogin ? <LoginForm setOpen={setOpen} /> : <SignupForm />}
+        {toggleLogin ? (
+          <LoginForm setOpen={setOpen} setToggleLogin={setToggleLogin} />
+        ) : (
+          <SignupForm setOpen={setOpen} setToggleLogin={setToggleLogin} />
+        )}
       </Box>
     </Modal>
   );
