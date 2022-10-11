@@ -5,9 +5,11 @@ import Home from "./pages/Home";
 import Cart from "./pages/Cart";
 import Orders from "./pages/Orders";
 import AuthState from "./contexts/AuthState";
+import CartState from "./contexts/CartState";
 
 function App() {
   return (
+    <CartState>
     <AuthState>
       <BrowserRouter>
         <Navbar />
@@ -19,6 +21,7 @@ function App() {
         </Routes>
       </BrowserRouter>
     </AuthState>
+    </CartState>
   );
 }
 

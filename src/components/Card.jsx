@@ -1,18 +1,24 @@
+import React, { useState, useContext } from "react";
+import ProductModal from "../components/ProductModal";
+import CartContext from "../contexts/CartContext";
 import {
   Box,
   Button,
   ButtonGroup,
   Paper,
-  Rating,
   Stack,
+  Tooltip,
   Typography,
 } from "@mui/material";
-import { AddShoppingCart, Description } from "@mui/icons-material";
-import React, { useState } from "react";
-import ProductModal from "../components/ProductModal";
+import {
+  AddShoppingCart,
+  RemoveShoppingCart,
+  Description,
+} from "@mui/icons-material";
 
 function Card({ product }) {
   const [open, setOpen] = useState(false);
+  const { addToCart, removeFromCart, toggleAddToCartButton } = useContext(CartContext);
 
   return (
     <>
@@ -40,16 +46,36 @@ function Card({ product }) {
                 variant="contained"
                 aria-label="outlined primary button group"
               >
-                <Button color="secondary" variant="contained">
-                  <AddShoppingCart />
-                </Button>
-                <Button
-                  color="secondary"
-                  variant="contained"
-                  onClick={() => setOpen(true)}
-                >
-                  <Description />
-                </Button>
+                {toggleAddToCartButton(product) === true ? (
+                  <Tooltip title="Add to cart" arrow>
+                    <Button
+                      color="secondary"
+                      variant="contained"
+                      onClick={() => addToCart(product)}
+                    >
+                      <AddShoppingCart />
+                    </Button>
+                  </Tooltip>
+                ) : (
+                  <Tooltip title="Remove from cart" arrow>
+                    <Button
+                      color="secondary"
+                      variant="contained"
+                      onClick={() => removeFromCart(product)}
+                    >
+                      <RemoveShoppingCart />
+                    </Button>
+                  </Tooltip>
+                )}
+                <Tooltip title="Product Description" arrow>
+                  <Button
+                    color="secondary"
+                    variant="contained"
+                    onClick={() => setOpen(true)}
+                  >
+                    <Description />
+                  </Button>
+                </Tooltip>
               </ButtonGroup>
             </Box>
           </Box>

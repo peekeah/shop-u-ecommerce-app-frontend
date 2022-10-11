@@ -17,12 +17,8 @@ const LoginForm = ({ setOpen, setToggleLogin }) => {
 
 
   const schema = yup.object().shape({
-    // name: yup.string().required("Required"),
     email: yup.string().email("Invalid email").required("Required"),
     password: yup.string().required("Password is required"),
-    // confPassword: yup
-    //   .string()
-    //   .oneOf([yup.ref("password"), null], "Passwords must match"),
   });
 
   const handleSubmit = async (values, { resetForm }) => {
