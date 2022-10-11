@@ -10,8 +10,3 @@ export const StyledBox = styled(Box) ({
   alignItems: "center",
   justifyContent: "center",
 })
-
-export const styledIconButton = styled(IconButton) ({
-  backgroundColor: 'yellow'
-
-})

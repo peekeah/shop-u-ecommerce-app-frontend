@@ -20,8 +20,9 @@ import { StyledBox } from "../styles/Cart";
 import { AddQty } from "../components/AddQty";
 
 function Cart() {
-  const { cartItems, removeFromCart } = useContext(CartContext);
-  console.log(cartItems)
+  const { cartItems, removeFromCart, orderTotal } = useContext(CartContext);
+  console.log(orderTotal());
+  // console.log(cartItems)
   return (
     <Box style={{ margin: "2rem auto", width: "65%" }}>
       <Stack direction="row" spacing={1}>
@@ -37,14 +38,16 @@ function Cart() {
                   {cartItems.map((s, id) => (
                     <TableRow style={{ height: "10rem" }} key={id}>
                       <TableCell>{s.product_name}</TableCell>
-                      <TableCell><img src={s.image} style={{ width: "60px"}} /></TableCell>
+                      <TableCell>
+                        <img src={s.image} style={{ width: "60px" }} />
+                      </TableCell>
                       <TableCell>{s.category}</TableCell>
                       <TableCell>{s.price} $</TableCell>
                       <TableCell>
-                      <AddQty  productId={s._id} />
+                        <AddQty productId={s._id} />
                       </TableCell>
                       <TableCell>
-                        <IconButton onClick={() => removeFromCart(s)} >
+                        <IconButton onClick={() => removeFromCart(s)}>
                           <Delete />
                         </IconButton>
                       </TableCell>
@@ -56,19 +59,19 @@ function Cart() {
           )}
         </Box>
         <Box flexGrow={1}>
-          <Card variant="outlined" style={{ margin: "auto", maxWidth: "80%" }}>
+          <Card variant="outlined" style={{ margin: "auto", maxWidth: "90%" }}>
             <Stack direction="column" m={2} spacing={1}>
-              <Typography variant="h5">Subtotal</Typography>
-              <Typography variant="h6">$54</Typography>
+              <Typography variant="h5">
+                Subtotal {cartItems.length} Items
+              </Typography>
+              <Typography variant="h6">$ {orderTotal()}</Typography>
             </Stack>
             <Divider />
-            <Button
-              variant="contained"
-              color="secondary"
-              sx={{ m: 2, textAlign: "center" }}
-            >
-              Proceed to checkout
-            </Button>
+            <Box sx={{ display: "flex", justifyContent: "center" }}>
+              <Button variant="contained" color="secondary" sx={{ m: 2 }}>
+                Proceed to checkout
+              </Button>
+            </Box>
           </Card>
         </Box>
       </Stack>

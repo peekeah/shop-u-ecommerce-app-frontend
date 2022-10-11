@@ -1,24 +1,33 @@
 import React, { useState } from "react";
+import { useEffect } from "react";
 import CartContext from "./CartContext";
 
 const CartState = (props) => {
-  const [cartItems, setCartItems] = useState([]);
-  console.log(cartItems);
+  const [cartItems, setCartItems] = useState(
+    JSON.parse(localStorage.getItem("cart") || "[]")
+  );
+
+  useEffect(() => {
+    localStorage.setItem("cart", JSON.stringify(cartItems));
+  }, [cartItems]);
+
   const addToCart = (product) => {
-    console.log("successfully added to cart");
     setCartItems((prev) => [...prev, { ...product, qty: 1 }]);
   };
 
   const removeFromCart = (product) => {
-    console.log("successfully removed from cart");
     setCartItems(() => cartItems.filter((s) => s._id !== product._id));
   };
+
+  const orderTotal = () => {
+    const total = cartItems.map(s => s.price * s.qty ).reduce((acc, item) => acc + item, 0);
+    return total.toFixed(2);
+  }
 
   const updateQty = (productId, qty) => {
     const cartItemsCopy = [...cartItems];
     const index = cartItemsCopy.findIndex((s) => s._id === productId);
     const temp = cartItems[index];
-    // console.log(temp)
     temp.qty = qty;
     cartItemsCopy[index] = temp;
     setCartItems(cartItemsCopy);
@@ -42,7 +51,8 @@ const CartState = (props) => {
         addToCart,
         removeFromCart,
         toggleAddToCartButton,
-        updateQty
+        updateQty,
+        orderTotal
       }}
     >
       {props.children}
