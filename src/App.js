@@ -6,6 +6,7 @@ import Cart from "./pages/Cart";
 import Orders from "./pages/Orders";
 import AuthState from "./contexts/AuthState";
 import CartState from "./contexts/CartState";
+import Checkout from "./pages/Checkout";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/cart" element={<Cart />} />
           <Route path="/orders" element={<Orders />} />
+          <Route path="/checkout" element={<Checkout />} />
           <Route path="*" element={<ErrorPage />} />
         </Routes>
       </BrowserRouter>

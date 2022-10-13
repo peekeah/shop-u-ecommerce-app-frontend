@@ -13,15 +13,26 @@ function Home() {
 
   const getData = async () => {
     const response = await axios.get(`${URL}/products`);
-    setProducts(response.data);
+    const data = response.data.map(s => ({...s, isProductInCart: false}));
+    setProducts(data);
   };
+
+  const toggleButton = (id) => {
+    const productsCopy = [...products];
+    const index = productsCopy.findIndex(s => s._id === id);
+    const temp = productsCopy[index];
+    temp.isProductInCart = ! temp.isProductInCart;
+    productsCopy[index] = temp;
+    setProducts(productsCopy);
+  }
+
   return (
     <Container>
       <Box mt={5} mb={5}>
         <Grid container spacing={3}>
           {products.map((product) => (
             <Grid item xs={3} key={product._id} >
-              <Card product={product} />
+              <Card product={product} toggleButton={toggleButton} />
             </Grid>
           ))}
         </Grid>

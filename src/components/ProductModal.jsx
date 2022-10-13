@@ -30,7 +30,7 @@ function Model({ setOpen, product }) {
         <Divider sx={{ my: 1 }} />
         <Stack spacing={2} mt={2}>
           <Typography>{product.description}</Typography>
-          <Typography>Price: {product.price}</Typography>
+          <Typography>Price: ₹ {product.price}</Typography>
           <Typography>Category: {product.category}</Typography>
           <Rating name="read-only" value={product.rating.rate} readOnly />
         </Stack>

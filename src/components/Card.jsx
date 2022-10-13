@@ -16,9 +16,9 @@ import {
   Description,
 } from "@mui/icons-material";
 
-function Card({ product }) {
+function Card({ product, toggleButton }) {
   const [open, setOpen] = useState(false);
-  const { addToCart, removeFromCart, toggleAddToCartButton } = useContext(CartContext);
+  const { addToCart, removeFromCart } = useContext(CartContext);
 
   return (
     <>
@@ -46,12 +46,12 @@ function Card({ product }) {
                 variant="contained"
                 aria-label="outlined primary button group"
               >
-                {toggleAddToCartButton(product) === true ? (
+                {product.isProductInCart === false ? (
                   <Tooltip title="Add to cart" arrow>
                     <Button
                       color="secondary"
                       variant="contained"
-                      onClick={() => addToCart(product)}
+                      onClick={() => {addToCart(product); toggleButton(product._id)}}
                     >
                       <AddShoppingCart />
                     </Button>
@@ -61,7 +61,7 @@ function Card({ product }) {
                     <Button
                       color="secondary"
                       variant="contained"
-                      onClick={() => removeFromCart(product)}
+                      onClick={() => {removeFromCart(product); toggleButton(product._id)}}
                     >
                       <RemoveShoppingCart />
                     </Button>

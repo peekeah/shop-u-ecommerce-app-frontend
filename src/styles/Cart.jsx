@@ -4,8 +4,8 @@ import { Colors } from "./theme";
 
 export const StyledBox = styled(Box) ({
   borderRadius: '8px',
-  backgroundColor: Colors.primary,
-  height: 50,
+  backgroundColor: Colors.secondary,
+  height: "20vh",
   display: "flex",
   alignItems: "center",
   justifyContent: "center",

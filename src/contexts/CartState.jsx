@@ -33,16 +33,6 @@ const CartState = (props) => {
     setCartItems(cartItemsCopy);
   };
 
-  //#BUG: cart buttons are not toggling parallely
-  const toggleAddToCartButton = (product) => {
-    const isPresent = cartItems.findIndex((s) => s._id === product._id);
-    if (isPresent) {
-      return true;
-    } else {
-      return false;
-    }
-  };
-
   return (
     <CartContext.Provider
       value={{
@@ -50,7 +40,6 @@ const CartState = (props) => {
         setCartItems,
         addToCart,
         removeFromCart,
-        toggleAddToCartButton,
         updateQty,
         orderTotal
       }}
