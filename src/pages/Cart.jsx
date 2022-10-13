@@ -15,13 +15,13 @@ import {
 } from "@mui/material";
 import { ArrowBack, Delete } from "@mui/icons-material";
 import React, { useContext } from "react";
-import CartContext from "../contexts/CartContext";
 import { StyledBox } from "../styles/Cart";
 import { AddQty } from "../components/AddQty";
 import { useNavigate } from "react-router-dom";
+import ProductsContext from "../contexts/ProductsContext";
 
 function Cart() {
-  const { cartItems, removeFromCart, orderTotal } = useContext(CartContext);
+  const { cartItems, removeFromCart, orderTotal } = useContext(ProductsContext);
 
   const navigate = useNavigate();
   return (

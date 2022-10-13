@@ -1,6 +1,5 @@
 import React, { useState, useContext } from "react";
 import ProductModal from "../components/ProductModal";
-import CartContext from "../contexts/CartContext";
 import {
   Box,
   Button,
@@ -15,10 +14,11 @@ import {
   RemoveShoppingCart,
   Description,
 } from "@mui/icons-material";
+import ProductsContext from "../contexts/ProductsContext";
 
-function Card({ product, toggleButton }) {
+function Card({ product }) {
   const [open, setOpen] = useState(false);
-  const { addToCart, removeFromCart } = useContext(CartContext);
+  const { addToCart, removeFromCart } = useContext(ProductsContext);
 
   return (
     <>
@@ -51,7 +51,7 @@ function Card({ product, toggleButton }) {
                     <Button
                       color="secondary"
                       variant="contained"
-                      onClick={() => {addToCart(product); toggleButton(product._id)}}
+                      onClick={() => addToCart(product)}
                     >
                       <AddShoppingCart />
                     </Button>
@@ -61,7 +61,7 @@ function Card({ product, toggleButton }) {
                     <Button
                       color="secondary"
                       variant="contained"
-                      onClick={() => {removeFromCart(product); toggleButton(product._id)}}
+                      onClick={() => removeFromCart(product)}
                     >
                       <RemoveShoppingCart />
                     </Button>

@@ -11,14 +11,14 @@ import {
 } from "@mui/material";
 import React, { useContext, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import CartContext from "../contexts/CartContext";
+import ProductsContext from "../contexts/ProductsContext";
 import displayRazorpay from "../utils/Razorpay";
 
 const Checkout = () => {
 
   const location = useLocation();
   const navigate = useNavigate();
-  const { cartItems, orderTotal } = useContext(CartContext);
+  const { cartItems, orderTotal } = useContext(ProductsContext);
 
   useEffect(() => {
     if (!location.state) {

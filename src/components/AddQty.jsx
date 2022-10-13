@@ -1,9 +1,9 @@
-import { Add, ContentPasteGoOutlined, Remove } from "@mui/icons-material";
+import { Add, Remove } from "@mui/icons-material";
 import { IconButton } from "@mui/material";
 import React, { useContext } from "react";
-import CartContext from "../contexts/CartContext";
+import ProductsContext from "../contexts/ProductsContext";
 export const AddQty = ({ productId }) => {
-  const { cartItems, updateQty } = useContext(CartContext);
+  const { cartItems, updateQty } = useContext(ProductsContext);
   const qty = cartItems.find((s) => s._id === productId).qty;
 
   const addQty = () => {

@@ -5,28 +5,25 @@ import Home from "./pages/Home";
 import Cart from "./pages/Cart";
 import Orders from "./pages/Orders";
 import AuthState from "./contexts/AuthState";
-import CartState from "./contexts/CartState";
 import Checkout from "./pages/Checkout";
-import ProductState from "./contexts/ProductState";
+import ProductsState from "./contexts/ProductsState";
 
 function App() {
   return (
-    <ProductState>
-      <CartState>
-        <AuthState>
-          <BrowserRouter>
-            <Navbar />
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/cart" element={<Cart />} />
-              <Route path="/orders" element={<Orders />} />
-              <Route path="/checkout" element={<Checkout />} />
-              <Route path="*" element={<ErrorPage />} />
-            </Routes>
-          </BrowserRouter>
-        </AuthState>
-      </CartState>
-    </ProductState>
+    <ProductsState>
+      <AuthState>
+        <BrowserRouter>
+          <Navbar />
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/cart" element={<Cart />} />
+            <Route path="/orders" element={<Orders />} />
+            <Route path="/checkout" element={<Checkout />} />
+            <Route path="*" element={<ErrorPage />} />
+          </Routes>
+        </BrowserRouter>
+      </AuthState>
+    </ProductsState>
   );
 }
 
