@@ -3,28 +3,32 @@ import axios from "axios";
 import Card from "../components/Card";
 import { Container, Grid } from "@mui/material";
 import { Box } from "@mui/system";
+import {useContext } from "react";
+import ProductsContext from "../contexts/ProductsContext";
+
 function Home() {
+  const {products, toggleButton} = useContext(ProductsContext);
   const URL = process.env.REACT_APP_API;
-  const [products, setProducts] = useState([]);
+  // const [products, setProducts] = useState([]);
 
-  useEffect(() => {
-    getData();
-  }, []);
+  // useEffect(() => {
+  //   getData();
+  // }, []);
 
-  const getData = async () => {
-    const response = await axios.get(`${URL}/products`);
-    const data = response.data.map(s => ({...s, isProductInCart: false}));
-    setProducts(data);
-  };
+  // const getData = async () => {
+  //   const response = await axios.get(`${URL}/products`);
+  //   const data = response.data.map(s => ({...s, isProductInCart: false}));
+  //   setProducts(data);
+  // };
 
-  const toggleButton = (id) => {
-    const productsCopy = [...products];
-    const index = productsCopy.findIndex(s => s._id === id);
-    const temp = productsCopy[index];
-    temp.isProductInCart = ! temp.isProductInCart;
-    productsCopy[index] = temp;
-    setProducts(productsCopy);
-  }
+  // const toggleButton = (id) => {
+  //   const productsCopy = [...products];
+  //   const index = productsCopy.findIndex(s => s._id === id);
+  //   const temp = productsCopy[index];
+  //   temp.isProductInCart = ! temp.isProductInCart;
+  //   productsCopy[index] = temp;
+  //   setProducts(productsCopy);
+  // }
 
   return (
     <Container>
