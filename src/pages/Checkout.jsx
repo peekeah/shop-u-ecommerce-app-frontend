@@ -58,7 +58,7 @@ const displayRazorpay = async (config, orderTotal, navigate) => {
         // redirect_url = '/you-owe-money.html';
         navigate('/');
       } else {
-        navigate('/orders');
+        navigate('/success');
         // redirect_url = '/thnx-you-paid.html';
         // navigate('/orders');
       }
