@@ -25,7 +25,6 @@ const SignupForm = ({ handleOpen, setToggleLogin }) => {
   });
 
   const handleSubmit = async (values) => {
-    // e.preventDefault();
     console.log(values);
   };
 

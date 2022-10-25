@@ -7,6 +7,7 @@ import Orders from "./pages/Orders";
 import AuthState from "./contexts/AuthState";
 import Checkout from "./pages/Checkout";
 import ProductsState from "./contexts/ProductsState";
+import Success from "./pages/Success";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
             <Route path="/cart" element={<Cart />} />
             <Route path="/orders" element={<Orders />} />
             <Route path="/checkout" element={<Checkout />} />
+            <Route path="/success" element={<Success />} />
             <Route path="*" element={<ErrorPage />} />
           </Routes>
         </BrowserRouter>

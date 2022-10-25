@@ -1,5 +1,5 @@
 import axios from "axios";
-
+// import { useNavigate } from "react-router-dom";
 const loadScript = (src) => {
   return new Promise((resolve) => {
     const script = document.createElement("script");
@@ -16,6 +16,7 @@ const loadScript = (src) => {
 
 const displayRazorpay = async () => {
   const URL = process.env.REACT_APP_API;
+  // const navigate = useNavigate();
   const res = await loadScript("https://checkout.razorpay.com/v1/checkout.js");
   if (!res) {
     alert("Razorpay SDK failed to load");
@@ -33,6 +34,17 @@ const displayRazorpay = async () => {
     image: "/favicon.ico",
     order_id: data.order_id,
     // callback_url: `${document.url}/`,
+    // callback_url: ,
+    handler: function(response) {
+      if (typeof response.razorpay_payment_id == 'undefined' ||  response.razorpay_payment_id < 1) {
+        // redirect_url = '/you-owe-money.html';
+        // navigate('/');
+      } else {
+        // redirect_url = '/thnx-you-paid.html';
+        // navigate('/success');
+      }
+      // location.href = redirect_url;
+    },
     prefill: {
       name: "Gaurav Kumar",
       email: "gaurav.kumar@example.com",

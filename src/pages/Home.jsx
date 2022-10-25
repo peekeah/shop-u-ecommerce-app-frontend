@@ -7,8 +7,7 @@ import ProductsContext from "../contexts/ProductsContext";
 
 function Home() {
   const { products } = useContext(ProductsContext);
-
-  console.log(products)
+  
   return (
     <Container>
       <Box mt={5} mb={5}>
