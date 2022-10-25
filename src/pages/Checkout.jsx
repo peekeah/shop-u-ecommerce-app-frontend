@@ -51,18 +51,12 @@ const displayRazorpay = async (config, orderTotal, navigate) => {
     description: "Thank you for shopping at Shop U",
     image: "/favicon.ico",
     order_id: data.order_id,
-    // callback_url: `${document.url}/`,
-    // callback_url: ,
     handler: function(response) {
       if (typeof response.razorpay_payment_id == 'undefined' ||  response.razorpay_payment_id < 1) {
-        // redirect_url = '/you-owe-money.html';
         navigate('/');
       } else {
         navigate('/success');
-        // redirect_url = '/thnx-you-paid.html';
-        // navigate('/orders');
       }
-      // location.href = redirect_url;
     },
     prefill: {
       name: data.name,

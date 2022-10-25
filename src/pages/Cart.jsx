@@ -6,11 +6,14 @@ import {
   IconButton,
   Paper,
   Stack,
+  Tab,
   Table,
   TableBody,
   TableCell,
   TableContainer,
+  TableHead,
   TableRow,
+  TextField,
   Typography,
 } from "@mui/material";
 import { ArrowBack, Delete } from "@mui/icons-material";
@@ -43,13 +46,22 @@ function Cart() {
         <Box>
           {cartItems.length < 1 ? (
             <StyledBox>
-              <Typography variant="h4" color="primary"> Your Cart is Empty</Typography>
+              <Typography variant="h4" color="primary">
+                {" "}
+                Your Cart is Empty
+              </Typography>
             </StyledBox>
           ) : (
             <>
               <Stack direction="row" spacing={1}>
                 <Box flex={3}>
                   <TableContainer component={Paper}>
+                    <Box my={2}>
+                      <Typography align="center" variant="h4">
+                        Cart Items
+                      </Typography>
+                    </Box>
+                    <Divider />
                     <Table sx={{ minWidth: 650 }} aria-label="simple table">
                       <TableBody>
                         {cartItems.map((s, id) => (
@@ -79,6 +91,12 @@ function Cart() {
                     variant="outlined"
                     style={{ margin: "auto", maxWidth: "90%" }}
                   >
+                    <Box my={2}>
+                      <Typography align="center" variant="h4">
+                        Payment
+                      </Typography>
+                    </Box>
+                    <Divider />
                     <Stack direction="column" m={2} spacing={1}>
                       <Typography variant="h5">
                         Subtotal {cartItems.length} Items
@@ -91,7 +109,7 @@ function Cart() {
                         variant="contained"
                         color="secondary"
                         sx={{ m: 2 }}
-                        onClick={() => navigate('/checkout', {state:5})}
+                        onClick={() => navigate("/checkout", { state: 5 })}
                       >
                         Proceed to checkout
                       </Button>
@@ -99,6 +117,39 @@ function Cart() {
                   </Card>
                 </Box>
               </Stack>
+              <Paper sx={{ mt: 5, maxWidth: 350 }}>
+                {/* <Box my={2}>
+                  <Typography align="center" variant="h4">Shipping Address</Typography>
+
+                </Box>
+                  <Divider /> */}
+
+                <Box sx={{ p: 2 }}>
+                  <Typography align="center" variant="h4">
+                    Shipping Address
+                  </Typography>
+                </Box>
+                <Divider />
+                <Stack spacing={2} sx={{ p: 4 }}>
+                  <TextField
+                    id="standard-textarea"
+                    label="Address"
+                    placeholder="Placeholder"
+                    multiline
+                    variant="standard"
+                    fullWidth={false}
+                  />
+                  <TextField
+                    label="Pincode"
+                    type="number"
+                    variant="standard"
+                    fullWidth={false}
+                  />
+                  <Box>
+                    <Button variant="contained">Add</Button>
+                  </Box>
+                </Stack>
+              </Paper>
             </>
           )}
         </Box>
