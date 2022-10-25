@@ -1,8 +1,10 @@
 import React, { useContext } from "react";
 import { Menu, MenuItem } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 function MenuList({  anchorEl, setAnchorEl, auth, toggleAuth }) {
 // const auth = useContext()
+const navigate = useNavigate();
 
   return (
     <Menu
@@ -40,8 +42,8 @@ function MenuList({  anchorEl, setAnchorEl, auth, toggleAuth }) {
       transformOrigin={{ horizontal: "right", vertical: "top" }}
       anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
     >
-      <MenuItem>My account</MenuItem>
-      <MenuItem>Orders</MenuItem>
+      <MenuItem onClick={() => navigate("/profile")}>My account</MenuItem>
+      <MenuItem onClick={() => navigate('/orders')} >Orders</MenuItem>
       <MenuItem onClick={() => toggleAuth(!auth)} >Logout</MenuItem>
     </Menu>
   );

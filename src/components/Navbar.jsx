@@ -31,9 +31,9 @@ function Navbar() {
               <Button color="inherit" onClick={() => navigate("/cart")}>
                 Cart
               </Button>
-              <Button color="inherit" onClick={() => navigate("/orders")}>
+              {/* <Button color="inherit" onClick={() => navigate("/orders")}>
                 Orders
-              </Button>
+              </Button> */}
               {!auth ? (
                 <Button color="inherit" onClick={() => setOpen(true)}>
                   Login
