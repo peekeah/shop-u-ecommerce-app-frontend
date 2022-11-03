@@ -3,12 +3,12 @@ import { AppBar, Avatar, Box, Button, Toolbar } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import { useNavigate, Link } from "react-router-dom";
 import LoginModal from "../components/LoginModal";
-import authContext from "../contexts/AuthContext";
+import UserContext from "../contexts/UserContext";
 import Menu from "./Menu";
 
 function Navbar() {
   const navigate = useNavigate();
-  const { auth, toggleAuth } = useContext(authContext);
+  const { auth, toggleAuth } = useContext(UserContext);
   const [open, setOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
   const openMenu = Boolean(anchorEl);

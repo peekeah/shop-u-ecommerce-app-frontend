@@ -10,29 +10,19 @@ import {
   TableRow,
   Typography,
 } from "@mui/material";
-import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
 import EditUserModal from "../components/EditUserModal";
-import AuthContext from "../contexts/AuthContext";
+import UserContext from "../contexts/UserContext";
 
 function MyAccount() {
-  const URL = process.env.REACT_APP_API;
-  const { config } = useContext(AuthContext);
-  const [data, setData] = useState([]);
-  const [open, setOpen] = useState(false);
-  const [counter, setCounter] = useState(0);
 
-  const getUser = async () => {
-    try {
-      const res = await axios.get(`${URL}/users/get-user`, config);
-      setData(res.data);
-    } catch (err) {
-      console.log(err);
-    }
-  };
+  const [open, setOpen] = useState(false);
+
+  const { userData, getUser } = useContext(UserContext);
+
   useEffect(() => {
     getUser();
-  }, [counter]);
+  }, []);
 
   return (
 
@@ -45,7 +35,7 @@ function MyAccount() {
             component={Paper}
           >
             <Table aria-label="simple table">
-              {data && (
+              {userData && (
                 <TableBody>
                   <TableRow
                     sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
@@ -54,7 +44,7 @@ function MyAccount() {
                       Name
                     </TableCell>
                     <TableCell component="th" scope="row">
-                      {data.name}
+                      {userData.name}
                     </TableCell>
                   </TableRow>
                   <TableRow
@@ -64,7 +54,7 @@ function MyAccount() {
                       Email
                     </TableCell>
                     <TableCell component="th" scope="row">
-                      {data.email}
+                      {userData.email}
                     </TableCell>
                   </TableRow>
                   <TableRow
@@ -74,7 +64,7 @@ function MyAccount() {
                       Mobile
                     </TableCell>
                     <TableCell component="th" scope="row">
-                      {data.mobile_no}
+                      {userData.mobile_no}
                     </TableCell>
                   </TableRow>
                 </TableBody>
@@ -93,10 +83,9 @@ function MyAccount() {
         </Box>
         {open && (
           <EditUserModal
-            data={data}
+            data={userData}
             setOpen={setOpen}
-            counter={counter}
-            setCounter={setCounter}
+            getUser={getUser}
           />
         )}
       </Container>

@@ -13,7 +13,7 @@ import React, { useContext, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import ProductsContext from "../contexts/ProductsContext";
 import axios from "axios";
-import AuthContext from "../contexts/AuthContext";
+import UserContext from "../contexts/UserContext";
 
 const loadScript = (src) => {
   return new Promise((resolve) => {
@@ -81,7 +81,7 @@ const Checkout = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const { cartItems, orderTotal  } = useContext(ProductsContext);
-  const { config} = useContext(AuthContext);
+  const { config } = useContext(UserContext);
 
 
   useEffect(() => {

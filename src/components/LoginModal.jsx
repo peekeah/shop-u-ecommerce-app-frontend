@@ -1,19 +1,10 @@
 import {
   Modal,
   Box,
-  Button,
-  Stack,
-  TextField,
-  ListItem,
-  ListItemButton,
-  ListItemIcon,
-  ListItemText,
 } from "@mui/material";
-import { Inbox } from "@mui/icons-material";
 import React, { useState } from "react";
 import LoginForm from "./LoginForm";
 import SignupForm from "./SignupForm";
-import * as yup from "yup";
 
 const style = {
   position: "absolute",
@@ -30,16 +21,6 @@ const style = {
 
 const LoginModal = ({ setOpen }) => {
   const [toggleLogin, setToggleLogin] = useState(true);
-
-  const schema = yup.object().shape({
-    name: yup.string().required(),
-    email: yup.string().required(),
-    password: yup.string().required(),
-    confirmPassword: yup
-      .string()
-      .required()
-      .oneOf([yup.ref("password"), null], "Passwords didn't match"),
-  });
 
   return (
     <Modal

@@ -4,7 +4,7 @@ import ErrorPage from "./pages/ErrorPage";
 import Home from "./pages/Home";
 import Cart from "./pages/Cart";
 import Orders from "./pages/Orders";
-import AuthState from "./contexts/AuthState";
+import UserState from "./contexts/UserState";
 import Checkout from "./pages/Checkout";
 import ProductsState from "./contexts/ProductsState";
 import Success from "./pages/Success";
@@ -13,7 +13,7 @@ import MyAccount from "./pages/MyAccount";
 function App() {
   return (
     <ProductsState>
-      <AuthState>
+      <UserState>
         <BrowserRouter>
           <Navbar />
           <Routes>
@@ -26,7 +26,7 @@ function App() {
             <Route path="*" element={<ErrorPage />} />
           </Routes>
         </BrowserRouter>
-      </AuthState>
+      </UserState>
     </ProductsState>
   );
 }

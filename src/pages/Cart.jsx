@@ -6,20 +6,18 @@ import {
   IconButton,
   Paper,
   Stack,
-  Tab,
   Table,
   TableBody,
   TableCell,
   TableContainer,
-  TableHead,
   TableRow,
-  TextField,
   Typography,
 } from "@mui/material";
 import { ArrowBack, Delete } from "@mui/icons-material";
 import React, { useContext } from "react";
 import { StyledBox } from "../styles/Cart";
 import { AddQty } from "../components/AddQty";
+import  ShippingAddress from "../components/ShippingAddress";
 import { useNavigate } from "react-router-dom";
 import ProductsContext from "../contexts/ProductsContext";
 
@@ -47,7 +45,6 @@ function Cart() {
           {cartItems.length < 1 ? (
             <StyledBox>
               <Typography variant="h4" color="primary">
-                {" "}
                 Your Cart is Empty
               </Typography>
             </StyledBox>
@@ -117,39 +114,7 @@ function Cart() {
                   </Card>
                 </Box>
               </Stack>
-              <Paper sx={{ mt: 5, maxWidth: 350 }}>
-                {/* <Box my={2}>
-                  <Typography align="center" variant="h4">Shipping Address</Typography>
-
-                </Box>
-                  <Divider /> */}
-
-                <Box sx={{ p: 2 }}>
-                  <Typography align="center" variant="h4">
-                    Shipping Address
-                  </Typography>
-                </Box>
-                <Divider />
-                <Stack spacing={2} sx={{ p: 4 }}>
-                  <TextField
-                    id="standard-textarea"
-                    label="Address"
-                    placeholder="Placeholder"
-                    multiline
-                    variant="standard"
-                    fullWidth={false}
-                  />
-                  <TextField
-                    label="Pincode"
-                    type="number"
-                    variant="standard"
-                    fullWidth={false}
-                  />
-                  <Box>
-                    <Button variant="contained">Add</Button>
-                  </Box>
-                </Stack>
-              </Paper>
+              <ShippingAddress />
             </>
           )}
         </Box>

@@ -3,12 +3,12 @@ import axios from "axios";
 import { Alert, Button, Stack, TextField, Typography } from "@mui/material";
 import { Form, Formik } from "formik";
 import * as yup from "yup";
-import AuthContext from "../contexts/AuthContext";
+import UserContext from "../contexts/UserContext";
 
 const LoginForm = ({ setOpen, setToggleLogin }) => {
   const URL = process.env.REACT_APP_API;
   const [err, setErr] = useState(null);
-  const { toggleAuth } = useContext(AuthContext);
+  const { toggleAuth } = useContext(UserContext);
 
   const initialValues = {
     email: "",

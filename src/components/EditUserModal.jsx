@@ -10,11 +10,11 @@ import React, { useContext } from "react";
 import * as yup from "yup";
 import { Form, Formik } from "formik";
 import axios from "axios";
-import AuthContext from "../contexts/AuthContext";
+import UserContext from "../contexts/UserContext";
 
-function EditUserModal({ setOpen, data, counter, setCounter }) {
+function EditUserModal({ setOpen, data, getUser }) {
   const URL = process.env.REACT_APP_API;
-  const { config } = useContext(AuthContext);
+  const { config } = useContext(UserContext);
   const style = {
     position: "absolute",
     top: "45%",
@@ -38,13 +38,15 @@ function EditUserModal({ setOpen, data, counter, setCounter }) {
   });
 
   const handleSubmit = async (values) => {
+    let { _id, __v, ...data } = values; 
+    console.log(data);
     try {
-      const res = await axios.patch(
-        `${URL}/users/update/${data._id}`,
-        values,
+      await axios.patch(
+        `${URL}/users/update`,
+        data,
         config
       );
-      setCounter(counter + 1);
+      getUser();
       setOpen(false);
     } catch (err) {
       console.log(err);
