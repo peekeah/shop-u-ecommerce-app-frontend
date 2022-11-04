@@ -20,10 +20,11 @@ import { AddQty } from "../components/AddQty";
 import  ShippingAddress from "../components/ShippingAddress";
 import { useNavigate } from "react-router-dom";
 import ProductsContext from "../contexts/ProductsContext";
+import UserContext from "../contexts/UserContext";
 
 function Cart() {
   const { cartItems, removeFromCart, orderTotal } = useContext(ProductsContext);
-
+  const { userData } = useContext(UserContext);
   const navigate = useNavigate();
   return (
     <>
@@ -107,6 +108,7 @@ function Cart() {
                         color="secondary"
                         sx={{ m: 2 }}
                         onClick={() => navigate("/checkout", { state: 5 })}
+                        disabled={userData.addresses.length < 1}
                       >
                         Proceed to checkout
                       </Button>

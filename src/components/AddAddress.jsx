@@ -12,8 +12,9 @@ import { Form, Formik } from "formik";
 import * as yup from "yup";
 
 function AddAddress({ setToggleForm }) {
+    const URL = process.env.REACT_APP_API;
     const { config, userData, getUser, handleLogout } = useContext(UserContext);
-    const [addresses, setAddresses] = useState([]);
+    // const [addresses, setAddresses] = useState([]);
 
     const initialValues = {
         name: "",
@@ -34,18 +35,18 @@ function AddAddress({ setToggleForm }) {
 
     useEffect(() => {
         getUser();
-        setAddresses(userData.addresses);
+        // setAddresses(userData.addresses);
         console.log(userData)
     } ,[])
 
     const handleSubmit = async(values, { resetForm }) => {
         setToggleForm(false);
-        // try {
-        //     await axios.patch(`${URL}/users/add-address`, values, config);
-        // } catch (err) {
-        //     console.log(err);
-        //     handleLogout();
-        // }
+        try {
+            await axios.patch(`${URL}/users/add-address`, values, config);
+        } catch (err) {
+            console.log(err);
+            handleLogout();
+        }
     };
 
     return (
