@@ -1,9 +1,11 @@
 import { Button, Stack, TextField, Typography } from "@mui/material";
-import React from "react";
+import React, { useContext } from "react";
 import * as yup from "yup";
 import { Form, Formik } from "formik";
+import axios from "axios";
+import UserContext from "../contexts/UserContext";
 
-const SignupForm = ({ handleOpen, setToggleLogin }) => {
+const SignupForm = ({ setOpen, setToggleLogin }) => {
   const URL = process.env.REACT_APP_API;
 
   const initialValues = {
@@ -23,8 +25,19 @@ const SignupForm = ({ handleOpen, setToggleLogin }) => {
       .required("Required"),
   });
 
+
+  const { handleLogin, handleLogout } = useContext(UserContext);
+
+
   const handleSubmit = async (values) => {
-    console.log(values);
+    try {
+        const response = await axios.post(`${URL}/register/signup`, values);
+        handleLogin(response.data)
+    } catch (err) {
+        console.log(err);
+        handleLogout();
+    }
+    setOpen(false);
   };
 
   return (

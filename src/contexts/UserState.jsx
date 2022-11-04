@@ -18,13 +18,10 @@ const UserState = (props) => {
 
     const [userData, setUserData] = useState([]);
 
-
-    const toggleAuth = () => {
-        if (localStorage.getItem("token")) {
-        localStorage.removeItem("token");
-        }
-        setAuth(!auth);
-    };
+    const handleLogin = (token) => {
+        localStorage.setItem("token", token);
+        setAuth(true);
+    }
 
     const handleLogout = () => {
         if (localStorage.getItem("token")) {
@@ -40,10 +37,10 @@ const UserState = (props) => {
         } catch (err) {
             console.log(err);
         }
-};
+    };
 
     return (
-        <UserContext.Provider value={{ auth, toggleAuth, userData, getUser, token, config, handleLogout }}>
+        <UserContext.Provider value={{ auth, toggleAuth, userData, getUser, token, config, handleLogin, handleLogout }}>
         {props.children}
         </UserContext.Provider>
     );

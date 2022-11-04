@@ -8,7 +8,8 @@ import UserContext from "../contexts/UserContext";
 const LoginForm = ({ setOpen, setToggleLogin }) => {
   const URL = process.env.REACT_APP_API;
   const [err, setErr] = useState(null);
-  const { toggleAuth } = useContext(UserContext);
+
+  const { handleLogin, handleLogout } = useContext(UserContext);
 
   const initialValues = {
     email: "",
@@ -25,13 +26,12 @@ const LoginForm = ({ setOpen, setToggleLogin }) => {
 
     try {
       const response = await axios.post(`${URL}/register/signin`, values);
-      console.log(response.data);
-      toggleAuth();
+      handleLogin(response.data);
       setOpen(false);
-      localStorage.setItem("token", response.data);
 
     } catch (err) {
       console.log(err);
+      handleLogout();
       setErr(true)
     }
 

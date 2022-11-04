@@ -108,7 +108,7 @@ function Cart() {
                         color="secondary"
                         sx={{ m: 2 }}
                         onClick={() => navigate("/checkout", { state: 5 })}
-                        disabled={userData.addresses.length < 1}
+                        disabled={userData.addresses?.length < 1}
                       >
                         Proceed to checkout
                       </Button>
