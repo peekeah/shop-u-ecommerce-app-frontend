@@ -14,7 +14,7 @@ import {
   Typography,
 } from "@mui/material";
 import { ArrowBack, Delete } from "@mui/icons-material";
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { StyledBox } from "../styles/Cart";
 import { AddQty } from "../components/AddQty";
 import  ShippingAddress from "../components/ShippingAddress";
@@ -24,7 +24,7 @@ import UserContext from "../contexts/UserContext";
 
 function Cart() {
   const { cartItems, removeFromCart, orderTotal } = useContext(ProductsContext);
-  const { userData, getUser } = useContext(UserContext);
+  const { addresses, getUser, selectedAddressId } = useContext(UserContext);
   const navigate = useNavigate();
 
 
@@ -113,8 +113,8 @@ function Cart() {
                         variant="contained"
                         color="secondary"
                         sx={{ m: 2 }}
-                        onClick={() => navigate("/checkout", { state: 5 })}
-                        disabled={userData.addresses?.length < 1}
+                        onClick={() => navigate("/checkout", { state: { id: selectedAddressId }})}
+                        disabled={addresses.length < 1}
                       >
                         Proceed to checkout
                       </Button>

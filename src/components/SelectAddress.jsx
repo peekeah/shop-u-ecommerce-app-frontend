@@ -9,15 +9,14 @@ import axios from 'axios';
 
 function SelectAddress({ setToggleForm }) {
     const URL = process.env.REACT_APP_API;
-    const { getUser, addresses, handleLogout, config } = useContext(UserContext);
-    const [value, setValue] = useState(null);
+    const { getUser, addresses, handleLogout, config, selectedAddressId, setSelectedAddressId } = useContext(UserContext);
+    // const [value, setValue] = useState(null);
 
     useEffect(() => {
         // if addresses are empty then redirecting to add address
-        if(addresses.length > 0) {
-            setValue(addresses[0]._id)
-        } else {
+        if(addresses.length < 1) {
             setToggleForm(true);    
+            // setSelectedAddressId(addresses[0]._id)
         }
     }, [])
 
@@ -39,9 +38,9 @@ function SelectAddress({ setToggleForm }) {
                     <FormLabel id="demo-radio-buttons-group-label">Address</FormLabel>
                     <RadioGroup
                         aria-labelledby="demo-radio-buttons-group-label"
-                        value={value}
+                        value={selectedAddressId}
                         name="radio-buttons-group"
-                        onChange={(e) => setValue(e.target.value) }
+                        onChange={(e) => setSelectedAddressId(e.target.value) }
                     >
                         <Table>
                             <TableBody>

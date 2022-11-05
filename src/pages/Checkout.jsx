@@ -83,14 +83,13 @@ const Checkout = () => {
   const { cartItems, orderTotal  } = useContext(ProductsContext);
   const { config } = useContext(UserContext);
 
-
   useEffect(() => {
-    if (!location.state) {
+    if (location.state === null) {
       navigate("/");
     }
   }, []);
 
-  
+  // console.log(location.state.id)
 
   return (
     <Box style={{ maxWidth: "90rem", margin: "auto" }}>

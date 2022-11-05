@@ -18,6 +18,7 @@ const UserState = (props) => {
 
     const [userData, setUserData] = useState([]);
     const [addresses, setAddresses] = useState([]);
+    const [selectedAddressId, setSelectedAddressId] = useState(null);
 
     useEffect(() => {
         getUser();
@@ -41,13 +42,16 @@ const UserState = (props) => {
             const res = await axios.get(`${URL}/users/get-user`, config);
             setUserData(res.data);
             setAddresses(res.data.addresses);
+            if(res.data.addresses.length > 0) {
+                setSelectedAddressId(res.data.addresses[0]._id);
+            }
         } catch (err) {
             console.log(err);
         }
     };
 
     return (
-        <UserContext.Provider value={{ auth, userData, addresses, getUser, token, config, handleLogin, handleLogout }}>
+        <UserContext.Provider value={{ auth, userData, addresses, getUser, token, config, handleLogin, handleLogout, selectedAddressId, setSelectedAddressId }}>
         {props.children}
         </UserContext.Provider>
     );

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useContext } from 'react'
 import UserContext from "../contexts/UserContext";
 import {
     Box,
@@ -20,6 +20,7 @@ function AddAddress({ setToggleForm }) {
         pincode: "",
     };
 
+    // yup validation schema
     const schema = yup.object().shape({
         name: yup.string().required("Name is Required").min(3, 'Name is too short'),
         address: yup.string().required("Password is required").min(6, 'Address is too short'),
@@ -30,14 +31,7 @@ function AddAddress({ setToggleForm }) {
         .max(6, 'Must be exactly 6 digits')
     });
 
-
-    useEffect(() => {
-        // getUser();
-        // if(addresses.length > 0) {
-        //     setToggleForm(false);
-        // }
-    } ,[])
-
+    // function to add address to db
     const handleSubmit = async(values) => {
         try {
             await axios.patch(`${URL}/users/add-address`, values, config);
