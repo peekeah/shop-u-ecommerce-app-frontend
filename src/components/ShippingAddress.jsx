@@ -11,11 +11,21 @@ import SelectAddress from "./SelectAddress";
 
 function ShippingAddress() {
     const [toggleForm, setToggleForm] = useState(false);
-    const { getUser } = useContext(UserContext);
+    const { getUser, addresses } = useContext(UserContext);
 
+    // getting user data on initial render
     useEffect(() => {
-        getUser()
+        getUser();
     }, [])
+
+    // toggling form on deleting address
+    useEffect(() => {
+        if(addresses.length > 0) {
+            setToggleForm(false);
+        } else {
+            setToggleForm(true);
+        }
+    }, [addresses])
 
 
     return (

@@ -14,7 +14,7 @@ import UserContext from "../contexts/UserContext";
 
 function EditUserModal({ setOpen, data, getUser }) {
   const URL = process.env.REACT_APP_API;
-  const { config } = useContext(UserContext);
+  const { config,  } = useContext(UserContext);
   const style = {
     position: "absolute",
     top: "45%",
@@ -27,8 +27,10 @@ function EditUserModal({ setOpen, data, getUser }) {
     p: 4,
   };
 
-  const initialValues = { ...data };
-
+  let initialValues = { ...data };
+  if(!data.mobile_no){
+    initialValues = {...initialValues, mobile_no: ""}
+  } 
   const schema = yup.object().shape({
     name: yup.string().required("Required"),
     email: yup.string().email("Invalid email").required("Required"),
@@ -38,12 +40,12 @@ function EditUserModal({ setOpen, data, getUser }) {
   });
 
   const handleSubmit = async (values) => {
-    let { _id, __v, ...data } = values; 
-    console.log(data);
+    let { _id, __v, ...formData } = values; 
+    console.log(formData);
     try {
       await axios.patch(
         `${URL}/users/update`,
-        data,
+        formData,
         config
       );
       getUser();

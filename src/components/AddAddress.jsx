@@ -1,11 +1,10 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect } from 'react'
 import UserContext from "../contexts/UserContext";
 import {
     Box,
     Button,
     Stack,
     TextField,
-    Typography,
 } from "@mui/material";
 import axios from "axios";
 import { Form, Formik } from "formik";
@@ -13,8 +12,7 @@ import * as yup from "yup";
 
 function AddAddress({ setToggleForm }) {
     const URL = process.env.REACT_APP_API;
-    const { config, userData, getUser, handleLogout } = useContext(UserContext);
-    // const [addresses, setAddresses] = useState([]);
+    const { config, getUser, handleLogout } = useContext(UserContext);
 
     const initialValues = {
         name: "",
@@ -34,15 +32,17 @@ function AddAddress({ setToggleForm }) {
 
 
     useEffect(() => {
-        getUser();
-        // setAddresses(userData.addresses);
-        console.log(userData)
+        // getUser();
+        // if(addresses.length > 0) {
+        //     setToggleForm(false);
+        // }
     } ,[])
 
-    const handleSubmit = async(values, { resetForm }) => {
-        setToggleForm(false);
+    const handleSubmit = async(values) => {
         try {
             await axios.patch(`${URL}/users/add-address`, values, config);
+            setToggleForm(false);
+            getUser();
         } catch (err) {
             console.log(err);
             handleLogout();
@@ -50,7 +50,7 @@ function AddAddress({ setToggleForm }) {
     };
 
     return (
-        <Formik
+            <Formik
             initialValues={initialValues}
             validationSchema={schema}
             onSubmit={handleSubmit}

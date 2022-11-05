@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import UserContext from "./UserContext";
 
 const UserState = (props) => {
@@ -17,6 +17,12 @@ const UserState = (props) => {
     );
 
     const [userData, setUserData] = useState([]);
+    const [addresses, setAddresses] = useState([]);
+
+    useEffect(() => {
+        getUser();
+    }, [auth])
+
 
     const handleLogin = (token) => {
         localStorage.setItem("token", token);
@@ -34,13 +40,14 @@ const UserState = (props) => {
         try {
             const res = await axios.get(`${URL}/users/get-user`, config);
             setUserData(res.data);
+            setAddresses(res.data.addresses);
         } catch (err) {
             console.log(err);
         }
     };
 
     return (
-        <UserContext.Provider value={{ auth, toggleAuth, userData, getUser, token, config, handleLogin, handleLogout }}>
+        <UserContext.Provider value={{ auth, userData, addresses, getUser, token, config, handleLogin, handleLogout }}>
         {props.children}
         </UserContext.Provider>
     );

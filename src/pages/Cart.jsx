@@ -14,7 +14,7 @@ import {
   Typography,
 } from "@mui/material";
 import { ArrowBack, Delete } from "@mui/icons-material";
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { StyledBox } from "../styles/Cart";
 import { AddQty } from "../components/AddQty";
 import  ShippingAddress from "../components/ShippingAddress";
@@ -24,8 +24,14 @@ import UserContext from "../contexts/UserContext";
 
 function Cart() {
   const { cartItems, removeFromCart, orderTotal } = useContext(ProductsContext);
-  const { userData } = useContext(UserContext);
+  const { userData, getUser } = useContext(UserContext);
   const navigate = useNavigate();
+
+
+  useEffect(() => {
+    getUser();
+  }, [])
+
   return (
     <>
       <Box

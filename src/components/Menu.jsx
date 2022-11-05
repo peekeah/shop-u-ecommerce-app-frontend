@@ -1,11 +1,11 @@
 import React, { useContext } from "react";
 import { Menu, MenuItem } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import UserContext from "../contexts/UserContext";
 
-function MenuList({  anchorEl, setAnchorEl, auth, toggleAuth }) {
-// const auth = useContext()
+function MenuList({  anchorEl, setAnchorEl }) {
 const navigate = useNavigate();
-
+const { handleLogout } = useContext(UserContext);
   return (
     <Menu
       id="basic-menu"
@@ -44,7 +44,7 @@ const navigate = useNavigate();
     >
       <MenuItem onClick={() => navigate("/profile")}>My account</MenuItem>
       <MenuItem onClick={() => navigate('/orders')} >Orders</MenuItem>
-      <MenuItem onClick={() => toggleAuth(!auth)} >Logout</MenuItem>
+      <MenuItem onClick={() => handleLogout()}>Logout</MenuItem>
     </Menu>
   );
 }
