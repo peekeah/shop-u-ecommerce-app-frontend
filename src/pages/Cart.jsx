@@ -14,7 +14,7 @@ import {
   Typography,
 } from "@mui/material";
 import { ArrowBack, Delete } from "@mui/icons-material";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect } from "react";
 import { StyledBox } from "../styles/Cart";
 import { AddQty } from "../components/AddQty";
 import  ShippingAddress from "../components/ShippingAddress";
@@ -24,13 +24,19 @@ import UserContext from "../contexts/UserContext";
 
 function Cart() {
   const { cartItems, removeFromCart, orderTotal } = useContext(ProductsContext);
-  const { addresses, getUser, selectedAddressId } = useContext(UserContext);
+  const { addresses, getUser, userData, selectedAddressId, setSelectedAddress } = useContext(UserContext);
   const navigate = useNavigate();
 
 
   useEffect(() => {
     getUser();
   }, [])
+
+  const handleSubmit = () => {
+    navigate("/checkout", { state: { id: selectedAddressId }});
+    const address = userData.addresses.filter(s => s._id === selectedAddressId)[0]
+    setSelectedAddress(address);
+  }
 
   return (
     <>
@@ -113,7 +119,7 @@ function Cart() {
                         variant="contained"
                         color="secondary"
                         sx={{ m: 2 }}
-                        onClick={() => navigate("/checkout", { state: { id: selectedAddressId }})}
+                        onClick={handleSubmit}
                         disabled={addresses.length < 1}
                       >
                         Proceed to checkout

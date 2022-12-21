@@ -2,6 +2,7 @@ import {
   Box,
   Button,
   Paper,
+  Stack,
   Table,
   TableBody,
   TableCell,
@@ -32,7 +33,6 @@ const loadScript = (src) => {
 
 const displayRazorpay = async (config, orderTotal, navigate) => {
   const URL = process.env.REACT_APP_API;
-  // const navigate = useNavigate();
   const res = await loadScript("https://checkout.razorpay.com/v1/checkout.js");
   if (!res) {
     alert("Razorpay SDK failed to load");
@@ -81,45 +81,69 @@ const Checkout = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const { cartItems, orderTotal  } = useContext(ProductsContext);
+  const { selectedAddress } = useContext(UserContext);
   const { config } = useContext(UserContext);
+
 
   useEffect(() => {
     if (location.state === null) {
-      navigate("/");
+      navigate("/cart");
     }
   }, []);
 
-  // console.log(location.state.id)
-
   return (
-    <Box style={{ maxWidth: "90rem", margin: "auto" }}>
-      <Typography align="center" variant="h4" m={3}>
-        Order Summary
-      </Typography>
-      <TableContainer component={Paper}>
-        <Table aria-label="simple table">
-          <TableBody>
-            {cartItems.map((s, id) => (
-              <TableRow style={{ height: "10rem" }} key={id}>
-                <TableCell>{s.product_name}</TableCell>
-                <TableCell>
-                  <img src={s.image} style={{ width: "60px" }} />
-                </TableCell>
-                <TableCell>{s.category}</TableCell>
-                <TableCell>₹ {s.price}</TableCell>
-                <TableCell>{s.qty}</TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
-      <Box my={3} sx={{display: "flex", justifyContent: "center"}} ><Typography variant="h4">Order Total is {orderTotal()}</Typography></Box>
-      <Box sx={{ display: "flex", justifyContent: "center", mt: 5 }}>
-        <Button variant="contained" color="primary" onClick={() => displayRazorpay(config, orderTotal, navigate)}>
-          Place Order
-        </Button>
-      </Box>
-    </Box>
+    <>
+      { 
+        location.state &&
+        <Box style={{ maxWidth: "90rem", margin: "auto" }}>
+          <Typography align="center" variant="h4" m={3}>
+            Order Summary
+          </Typography>
+          <TableContainer component={Paper}>
+            <Table aria-label="simple table">
+              <TableBody>
+                {cartItems.map((s, id) => (
+                  <TableRow style={{ height: "10rem" }} key={id}>
+                    <TableCell>{s.product_name}</TableCell>
+                    <TableCell>
+                      <img src={s.image} style={{ width: "60px" }} />
+                    </TableCell>
+                    <TableCell>{s.category}</TableCell>
+                    <TableCell>₹ {s.price}</TableCell>
+                    <TableCell>{s.qty}</TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+          <Box my={5} >
+            <Typography my={2} variant="h4" align="center">
+              Shipping Address
+            </Typography>
+            <Paper sx={{ p: 2 }}>
+
+            {
+                selectedAddress && 
+            <Stack direction="column">
+              <Typography variant="body1">{selectedAddress.name},</Typography>
+              <Typography variant="body1">{selectedAddress.address},</Typography>
+              <Typography variant="body1">{selectedAddress.pincode}</Typography>
+            </Stack>
+            }
+            </Paper>
+          </Box>
+          <Box my={3} sx={{display: "flex", justifyContent: "center"}} >
+            <Typography variant="h4">Order Total is {orderTotal()}</Typography>
+          </Box>
+
+          <Box sx={{ display: "flex", justifyContent: "center", mt: 5 }}>
+            <Button variant="contained" color="primary" onClick={() => displayRazorpay(config, orderTotal, navigate)}>
+              Place Order
+            </Button>
+          </Box>
+        </Box>
+      }
+    </>
   );
 };
 

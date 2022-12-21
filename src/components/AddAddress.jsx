@@ -73,7 +73,6 @@ function AddAddress({ setToggleForm }) {
                     />
                     <TextField
                         label="Address"
-                        placeholder="Placeholder"
                         multiline
                         variant="standard"
                         fullWidth={false}
