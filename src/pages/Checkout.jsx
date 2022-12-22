@@ -30,18 +30,28 @@ const loadScript = (src) => {
   });
 };
 
-
-const displayRazorpay = async (config, orderTotal, navigate, purchasedProucts) => {
+const displayRazorpay = async (
+  config,
+  orderTotal,
+  navigate,
+  purchasedProucts
+) => {
   const URL = process.env.REACT_APP_API;
   const res = await loadScript("https://checkout.razorpay.com/v1/checkout.js");
   if (!res) {
     alert("Razorpay SDK failed to load");
   }
-  
+
   const razorpayKey = await process.env.REACT_APP_RAZORPAY_KEY;
-  const data = await axios.post(`${URL}/razorpay/pay`, {
-    order_total: orderTotal()
-  }, config).then((s) => s.data);
+  const data = await axios
+    .post(
+      `${URL}/razorpay/pay`,
+      {
+        order_total: orderTotal(),
+      },
+      config
+    )
+    .then((s) => s.data);
 
   const options = {
     key: razorpayKey,
@@ -50,16 +60,19 @@ const displayRazorpay = async (config, orderTotal, navigate, purchasedProucts) =
     name: "Shop U Inc",
     description: "Thank you for shopping at Shop U",
     image: "/favicon.ico",
-    order_id: data.order_id,
-    handler: function(response) {
-      if (typeof response.razorpay_payment_id == 'undefined' ||  response.razorpay_payment_id < 1) {
-        navigate('/');
+    id: data.order_id,
+    handler: function (response) {
+      if (
+        typeof response.razorpay_payment_id == "undefined" ||
+        response.razorpay_payment_id < 1
+      ) {
+        navigate("/");
       } else {
         try {
-          axios.post(`${URL}/purchase/create`, purchasedProucts(), config)
-          navigate('/success');
+          axios.post(`${URL}/purchase/create`, purchasedProucts(data), config);
+          navigate("/success");
         } catch (err) {
-          console.log(err)
+          console.log(err);
         }
       }
     },
@@ -80,15 +93,12 @@ const displayRazorpay = async (config, orderTotal, navigate, purchasedProucts) =
   paymentObject.open();
 };
 
-
 const Checkout = () => {
-
   const location = useLocation();
   const navigate = useNavigate();
-  const { cartItems, orderTotal  } = useContext(ProductsContext);
+  const { cartItems, orderTotal } = useContext(ProductsContext);
   const { selectedAddress } = useContext(UserContext);
   const { config } = useContext(UserContext);
-
 
   useEffect(() => {
     if (location.state === null) {
@@ -96,21 +106,25 @@ const Checkout = () => {
     }
   }, []);
 
-
-  const purchasedProucts = () => {
+  const purchasedProucts = (data) => {
+    console.log(data)
     const purchase = cartItems.map((s) => ({
       product_name: s.product_name,
       category: s.category,
       quantity: s.qty,
-      price: s.price * s.qty
-    }))
-    return { products: purchase, order_total: orderTotal() };
-  }
+      price: s.price * s.qty,
+    }));
+    return {
+      products: purchase,
+      order_total: orderTotal(),
+      shipping_address: selectedAddress,
+      order_id: data.order_id,
+    };
+  };
 
   return (
     <>
-      { 
-        location.state &&
+      {location.state && (
         <Box style={{ maxWidth: "90rem", margin: "auto" }}>
           <Typography align="center" variant="h4" m={3}>
             Order Summary
@@ -132,33 +146,43 @@ const Checkout = () => {
               </TableBody>
             </Table>
           </TableContainer>
-          <Box my={5} >
+          <Box my={5}>
             <Typography my={2} variant="h4" align="center">
               Shipping Address
             </Typography>
             <Paper sx={{ p: 2 }}>
-
-            {
-                selectedAddress && 
-            <Stack direction="column">
-              <Typography variant="body1">{selectedAddress.name},</Typography>
-              <Typography variant="body1">{selectedAddress.address},</Typography>
-              <Typography variant="body1">{selectedAddress.pincode}</Typography>
-            </Stack>
-            }
+              {selectedAddress && (
+                <Stack direction="column">
+                  <Typography variant="body1">
+                    {selectedAddress.name},
+                  </Typography>
+                  <Typography variant="body1">
+                    {selectedAddress.address},
+                  </Typography>
+                  <Typography variant="body1">
+                    {selectedAddress.pincode}
+                  </Typography>
+                </Stack>
+              )}
             </Paper>
           </Box>
-          <Box my={3} sx={{display: "flex", justifyContent: "center"}} >
+          <Box my={3} sx={{ display: "flex", justifyContent: "center" }}>
             <Typography variant="h4">Order Total is {orderTotal()}</Typography>
           </Box>
 
           <Box sx={{ display: "flex", justifyContent: "center", mt: 5 }}>
-            <Button variant="contained" color="primary" onClick={() => displayRazorpay(config, orderTotal, navigate, purchasedProucts)}>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={() =>
+                displayRazorpay(config, orderTotal, navigate, purchasedProucts)
+              }
+            >
               Place Order
             </Button>
           </Box>
         </Box>
-      }
+      )}
     </>
   );
 };
