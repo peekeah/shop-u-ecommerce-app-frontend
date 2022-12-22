@@ -31,7 +31,7 @@ const loadScript = (src) => {
 };
 
 
-const displayRazorpay = async (config, orderTotal, navigate) => {
+const displayRazorpay = async (config, orderTotal, navigate, purchasedProucts) => {
   const URL = process.env.REACT_APP_API;
   const res = await loadScript("https://checkout.razorpay.com/v1/checkout.js");
   if (!res) {
@@ -40,7 +40,7 @@ const displayRazorpay = async (config, orderTotal, navigate) => {
   
   const razorpayKey = await process.env.REACT_APP_RAZORPAY_KEY;
   const data = await axios.post(`${URL}/razorpay/pay`, {
-    total: orderTotal()
+    order_total: orderTotal()
   }, config).then((s) => s.data);
 
   const options = {
@@ -55,7 +55,12 @@ const displayRazorpay = async (config, orderTotal, navigate) => {
       if (typeof response.razorpay_payment_id == 'undefined' ||  response.razorpay_payment_id < 1) {
         navigate('/');
       } else {
-        navigate('/success');
+        try {
+          axios.post(`${URL}/purchase/create`, purchasedProucts(), config)
+          navigate('/success');
+        } catch (err) {
+          console.log(err)
+        }
       }
     },
     prefill: {
@@ -90,6 +95,17 @@ const Checkout = () => {
       navigate("/cart");
     }
   }, []);
+
+
+  const purchasedProucts = () => {
+    const purchase = cartItems.map((s) => ({
+      product_name: s.product_name,
+      category: s.category,
+      quantity: s.qty,
+      price: s.price * s.qty
+    }))
+    return { products: purchase, order_total: orderTotal() };
+  }
 
   return (
     <>
@@ -137,7 +153,7 @@ const Checkout = () => {
           </Box>
 
           <Box sx={{ display: "flex", justifyContent: "center", mt: 5 }}>
-            <Button variant="contained" color="primary" onClick={() => displayRazorpay(config, orderTotal, navigate)}>
+            <Button variant="contained" color="primary" onClick={() => displayRazorpay(config, orderTotal, navigate, purchasedProucts)}>
               Place Order
             </Button>
           </Box>
