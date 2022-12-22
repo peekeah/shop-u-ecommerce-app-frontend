@@ -81,6 +81,7 @@ const ProductsState = (props) => {
   // Clear Cart
   const clearCart = () => {
     setCartItems([]);
+    getData();
   }
 
   return (
