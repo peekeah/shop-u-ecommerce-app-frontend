@@ -70,7 +70,7 @@ const displayRazorpay = async (
         navigate("/");
       } else {
         try {
-          axios.post(`${URL}/purchase/create`, purchasedProucts(data), config);
+          axios.post(`${URL}/orders/create`, purchasedProucts(data), config);
           clearCart()
           navigate("/success");
         } catch (err) {
