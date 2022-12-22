@@ -78,6 +78,11 @@ const ProductsState = (props) => {
     setCartItems(cartItemsCopy);
   };
 
+  // Clear Cart
+  const clearCart = () => {
+    setCartItems([]);
+  }
+
   return (
     <ProductsContext.Provider
       value={{
@@ -88,6 +93,7 @@ const ProductsState = (props) => {
         removeFromCart,
         updateQty,
         orderTotal,
+        clearCart
       }}
     >
       {props.children}

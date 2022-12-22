@@ -34,7 +34,8 @@ const displayRazorpay = async (
   config,
   orderTotal,
   navigate,
-  purchasedProucts
+  purchasedProucts,
+  clearCart
 ) => {
   const URL = process.env.REACT_APP_API;
   const res = await loadScript("https://checkout.razorpay.com/v1/checkout.js");
@@ -70,6 +71,7 @@ const displayRazorpay = async (
       } else {
         try {
           axios.post(`${URL}/purchase/create`, purchasedProucts(data), config);
+          clearCart()
           navigate("/success");
         } catch (err) {
           console.log(err);
@@ -96,7 +98,7 @@ const displayRazorpay = async (
 const Checkout = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const { cartItems, orderTotal } = useContext(ProductsContext);
+  const { cartItems, orderTotal, clearCart } = useContext(ProductsContext);
   const { selectedAddress } = useContext(UserContext);
   const { config } = useContext(UserContext);
 
@@ -107,7 +109,6 @@ const Checkout = () => {
   }, []);
 
   const purchasedProucts = (data) => {
-    console.log(data)
     const purchase = cartItems.map((s) => ({
       product_name: s.product_name,
       category: s.category,
@@ -175,7 +176,7 @@ const Checkout = () => {
               variant="contained"
               color="primary"
               onClick={() =>
-                displayRazorpay(config, orderTotal, navigate, purchasedProucts)
+                displayRazorpay(config, orderTotal, navigate, purchasedProucts, clearCart)
               }
             >
               Place Order
