@@ -35,7 +35,7 @@ function Orders() {
               p={2}
               style={{ backgroundColor: "#d3d3d3" }}
             >
-              <Typography>Order Id: {s.order_id}</Typography>
+              <Typography>Order Id: #{s.order_id}</Typography>
               <Typography>Total: ₹{s.order_total}</Typography>
             
               <Tooltip title={s.shipping_address.address+", "+s.shipping_address.pincode} arrow={true}>
